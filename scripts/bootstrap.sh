@@ -6,7 +6,7 @@ TARGET_ARCH="$1"
 SUDO_APK=abuild-apk
 
 # optional cross build packages
-KERNEL_PKG="linux-firmware linux-vanilla"
+KERNEL_PKG="linux-firmware linux-rpi"
 
 # get abuild configurables
 [ -e /usr/share/abuild/functions.sh ] || (echo "abuild not found" ; exit 1)
@@ -104,7 +104,7 @@ for PKG in fortify-headers linux-headers musl libc-dev pkgconf zlib \
 	   pax-utils lzip abuild ncurses libedit openssh \
 	   libcap-ng util-linux libaio lvm2 popt xz \
 	   json-c argon2 cryptsetup kmod lddtree mkinitfs \
-	   community/go libffi community/ghc \
+	   libffi community/ghc \
 	   $KERNEL_PKG ; do
 
 	CHOST=$TARGET_ARCH BOOTSTRAP=bootimage APKBUILD=$(apkbuildname $PKG) abuild -r

@@ -20,8 +20,8 @@ source="https://dev.alpinelinux.org/archive/$pkgname/$pkgname-${pkgver}.tar.gz
 	https://community.cypress.com/servlet/JiveServlet/download/17441-1-45313/cypress-fmac-v4.14.77-2019_0503.zip
 	BCM43430A1.hcd.${_rpi_bt::8}::https://github.com/RPi-Distro/bluez-firmware/raw/$_rpi_bt/broadcom/BCM43430A1.hcd
 	BCM4345C0.hcd.${_rpi_bt::8}::https://github.com/RPi-Distro/bluez-firmware/raw/$_rpi_bt/broadcom/BCM4345C0.hcd
-	https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm/brcmfmac43455-sdio.bin
-	https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm/brcmfmac43455-sdio.clm_blob
+	brcmfmac43455-sdio.bin::https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm/brcmfmac43455-sdio.bin
+	brcmfmac43455-sdio.clm_blob::https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm/brcmfmac43455-sdio.clm_blob
 	"
 
 _giturl="git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
@@ -153,4 +153,7 @@ none() {
 sha512sums="d88837cf6d5674294cc78b946f97b9ecdf2a1beae00d6e9df0a60573ac720814240643c729ae9672591263bf796e966824239c5c93a29a606511c48352b83a3f  linux-firmware-20190322.tar.gz
 77526c8b1c05e49b2304d1a86885119ef8a4e9cf9b589417a9072367238eae42e8d9d70bc6930a7557f2fba19ceb96332eb28141ca661f33e9d31507f51c4c71  cypress-fmac-v4.14.77-2019_0503.zip
 a7b37bce092367125e390017bb0329c3b7f8fa891cf30d422ee73ce53d0592d4ff0fc2e2a94a87eefb641d5dd8631fae1cc46664224dea987ca04b68a8af8519  BCM43430A1.hcd.96eefffc
-83015026e740cbe14a3991bf751eb7aba6aeaab1835c0252c449376b2700d87f8d24e1f4dd2317fbb333665907ba5760db9d858ac06e2d357e1add944e1dbc2d  BCM4345C0.hcd.96eefffc"
+83015026e740cbe14a3991bf751eb7aba6aeaab1835c0252c449376b2700d87f8d24e1f4dd2317fbb333665907ba5760db9d858ac06e2d357e1add944e1dbc2d  BCM4345C0.hcd.96eefffc
+ebc703d94518dc3a3a0c2a9f2196cbb29341e34323b0304d61157e6a2aff68bd5cab66e9aebcaaf59561b3c4c790e0a14274b09de75b67b00262b4889aa828ed  brcmfmac43455-sdio.bin
+3f4ed4d4e087bc7ee50c7f5a4a511879ed54dcf3567ff973f9aaaf0c84f2c7354e8c47d7d53056584190c6bcfe7c3e56930526ad382ebd49128263daa32cdc8e  brcmfmac43455-sdio.clm_blob
+"

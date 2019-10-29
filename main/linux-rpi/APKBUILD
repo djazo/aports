@@ -28,6 +28,7 @@ source="https://kernel.org/pub/linux/kernel/v4.x/linux-$_kernver.tar.xz
 	config-changes-rpi2.armhf
 	config-changes-rpi.armv7
 	config-changes-rpi2.armv7
+	config-changes-rpi4.aarch64
 	"
 subpackages=""
 arch="armhf armv7 aarch64"

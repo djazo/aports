@@ -189,7 +189,7 @@ _package() {
 	make -j1 modules_install $_install \
 		ARCH="$_carch" \
 		INSTALL_MOD_PATH="$_outdir" \
-		INSTALL_PATH="$_outdir/boot" \
+		INSTALL_PATH="$_outdir"/boot \
 		INSTALL_DTBS_PATH="$INSTALL_DTBS_PATH"
 
 	rm -f "$_outdir"/lib/modules/${_abi_release}/build \

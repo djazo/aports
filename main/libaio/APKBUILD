@@ -11,9 +11,9 @@ license="LGPL-2.1-or-later"
 options="!check" # No test suite.
 makedepends="linux-headers"
 subpackages="$pkgname-dev"
-source="https://releases.pagure.org/libaio/libaio-$pkgver.tar.gz"
-	# libaio-optional-werror.patch
-	# libaio-cppflags.patch"
+source="https://releases.pagure.org/libaio/libaio-$pkgver.tar.gz
+	libaio-optional-werror.patch
+	libaio-cppflags.patch"
 
 package() {
 	make prefix="$pkgdir/usr" \

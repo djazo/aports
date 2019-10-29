@@ -7,7 +7,7 @@ build_kernel() {
 	if [ "$_flavor" == "rpi4" ] || [ "$_flavor" = "rpi" ] || [ "$_flavor" == "rpi2" ]; then
 	    ln -s $DESTDIR/. $DESTDIR/boot
 	fi
-	   
+   
 	update-kernel \
 		$_hostkeys \
 		${_abuild_pubkey:+--apk-pubkey $_abuild_pubkey} \

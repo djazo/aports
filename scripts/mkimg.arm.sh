@@ -56,11 +56,11 @@ rpi_gen_config() {
 		cat <<-EOF
 		arm_64bit=1
 		[pi3+]
-		kernel=boot/vmlinuz-rpi
-		initramfs boot/initramfs-rpi
+		kernel=vmlinuz-rpi
+		initramfs initramfs-rpi
 		[pi4]
-		kernel=boot/vmlinuz-rpi4
-		initramfs boot/initramfs-rpi4
+		kernel=vmlinuz-rpi4
+		initramfs initramfs-rpi4
 		include usercfg.txt
 		EOF
 	;;

@@ -108,7 +108,7 @@ _genconfig() {
 	local defconfig=
 	case $flavor in
 		rpi) defconfig=bcmrpi_defconfig
-		[ "$CARCH" = "aarch64" ] && defconfig=bcmrpi3_defconfig ;;
+		[ "$CARCH" = "aarch64" ] && defconfig=bcm2709_defconfig ;;
 		rpi2) defconfig=bcm2709_defconfig ;;
 		rpi4) defconfig=bcm2711_defconfig ;;
 		*) die "Unknown flavor: $flavor" ;;

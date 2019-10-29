@@ -6,7 +6,7 @@ case $pkgver in
 *.*.*)	_kernver=${pkgver%.*};;
 *.*)	_kernver=${pkgver};;
 esac
-pkgrel=0
+pkgrel=1
 pkgdesc="Linux kernel with Raspberry Pi patches"
 url=https://github.com/raspberrypi/linux
 depends="mkinitfs"
@@ -108,7 +108,7 @@ _genconfig() {
 	local defconfig=
 	case $flavor in
 		rpi) defconfig=bcmrpi_defconfig
-		[ "$CARCH" = "aarch64" ] && defconfig=bcm2709_defconfig ;;
+		[ "$CARCH" = "aarch64" ] && defconfig=bcmrpi3_defconfig ;;
 		rpi2) defconfig=bcm2709_defconfig ;;
 		rpi4) defconfig=bcm2711_defconfig ;;
 		*) die "Unknown flavor: $flavor" ;;
@@ -189,7 +189,7 @@ _package() {
 	make -j1 modules_install $_install \
 		ARCH="$_carch" \
 		INSTALL_MOD_PATH="$_outdir" \
-		INSTALL_PATH="$_outdir"/boot \
+		INSTALL_PATH="$_outdir" \
 		INSTALL_DTBS_PATH="$INSTALL_DTBS_PATH"
 
 	rm -f "$_outdir"/lib/modules/${_abi_release}/build \

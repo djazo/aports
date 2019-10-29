@@ -3,6 +3,9 @@ build_kernel() {
 	shift 3
 	local _pkgs="$@"
 	[ "$modloop_sign" = "yes" ] && _modloopsign="--modloopsign"
+	[ "$_flavor" = "rpi4" ] && ln -rs $DESTDIR/. $DESTDIR/boot
+	fi
+	   
 	update-kernel \
 		$_hostkeys \
 		${_abuild_pubkey:+--apk-pubkey $_abuild_pubkey} \

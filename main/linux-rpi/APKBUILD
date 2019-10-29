@@ -258,7 +258,7 @@ _dev() {
 	# external modules, and create the scripts
 	mkdir -p "$dir"
 	cp "$srcdir"/build-$_flavor/.config "$dir"/.config
-	make -j1 -C "$srcdir"/linux-$_kernver O="$dir" HOSTCC="${CC:-gcc}" \
+	make -j1 -C "$srcdir"/linux-$_kernver O="$dir" ARCH="$_carch" CC="${CC:-gcc}" \
 		silentoldconfig prepare modules_prepare scripts
 
 	# remove the stuff that points to real sources. we want 3rd party

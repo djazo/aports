@@ -3,8 +3,8 @@ build_kernel() {
 	shift 3
 	local _pkgs="$@"
 	[ "$modloop_sign" = "yes" ] && _modloopsign="--modloopsign"
-	[ "$_flavor" = "rpi4" ] && ln -rs $DESTDIR/. $DESTDIR/boot
-	fi
+	# fake boot dir for rpi to get kernel and initramfs into sd root
+	[ "$_flavor" = "rpi4" | "$_flavor" = "rpi" | "$_flavor" = "rpi2" ] && ln -s $DESTDIR/. $DESTDIR/boot
 	   
 	update-kernel \
 		$_hostkeys \

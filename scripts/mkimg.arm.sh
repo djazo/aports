@@ -16,23 +16,23 @@ rpi_gen_config() {
 	armhf)
 		cat <<-EOF
 		[pi0]
-		kernel=boot/vmlinuz-rpi
-		initramfs boot/initramfs-rpi
+		kernel=vmlinuz-rpi
+		initramfs initramfs-rpi
 		[pi0w]
-		kernel=boot/vmlinuz-rpi
-		initramfs boot/initramfs-rpi
+		kernel=vmlinuz-rpi
+		initramfs initramfs-rpi
 		[pi1]
-		kernel=boot/vmlinuz-rpi
-		initramfs boot/initramfs-rpi
+		kernel=vmlinuz-rpi
+		initramfs initramfs-rpi
 		[pi2]
-		kernel=boot/vmlinuz-rpi2
-		initramfs boot/initramfs-rpi2
+		kernel=vmlinuz-rpi2
+		initramfs initramfs-rpi2
 		[pi3]
-		kernel=boot/vmlinuz-rpi2
-		initramfs boot/initramfs-rpi2
+		kernel=vmlinuz-rpi2
+		initramfs initramfs-rpi2
 		[pi3+]
-		kernel=boot/vmlinuz-rpi2
-		initramfs boot/initramfs-rpi2
+		kernel=vmlinuz-rpi2
+		initramfs initramfs-rpi2
 		[all]
 		include usercfg.txt
 		EOF
@@ -40,14 +40,17 @@ rpi_gen_config() {
 	armv7)
 		cat <<-EOF
 		[pi2]
-		kernel=boot/vmlinuz-rpi2
-		initramfs boot/initramfs-rpi2
+		kernel=vmlinuz-rpi2
+		initramfs initramfs-rpi2
 		[pi3]
-		kernel=boot/vmlinuz-rpi2
-		initramfs boot/initramfs-rpi2
+		kernel=vmlinuz-rpi2
+		initramfs initramfs-rpi2
 		[pi3+]
-		kernel=boot/vmlinuz-rpi2
-		initramfs boot/initramfs-rpi2
+		kernel=vmlinuz-rpi2
+		initramfs initramfs-rpi2
+		[pi4]
+		kernel=vmlinuz-rpi4
+		initramfs initramfs-rpi4
 		[all]
 		include usercfg.txt
 		EOF
@@ -61,6 +64,7 @@ rpi_gen_config() {
 		[pi4]
 		kernel=vmlinuz-rpi4
 		initramfs initramfs-rpi4
+		[all]
 		include usercfg.txt
 		EOF
 	;;

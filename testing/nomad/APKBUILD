@@ -1,7 +1,7 @@
 # Contributor: Matthias Neugebauer <mtneug@mailbox.org>
 # Maintainer: Matthias Neugebauer <mtneug@mailbox.org>
 pkgname=nomad
-pkgver=0.9.6
+pkgver=0.10.0
 pkgrel=0
 pkgdesc="An easy-to-use, flexible, and performant workload orchestrator"
 url="https://www.nomadproject.io/"
@@ -16,7 +16,10 @@ source="$pkgname-$pkgver.tar.gz::https://github.com/hashicorp/$pkgname/archive/v
 	nomad.confd
 	nvidia-driver.patch
 	server.hcl
-	static-assets.patch"
+	static-assets.patch
+	ui-remove-husky.patch
+	update-yarn-lock.patch"
+
 builddir="$srcdir/src/github.com/hashicorp/$pkgname"
 
 prepare() {
@@ -46,9 +49,11 @@ package() {
 	install -m750 -o root -g root -d "$pkgdir/var/lib/$pkgname"
 }
 
-sha512sums="f6954615d1098230e0b9cf1eb05eb3582c582b5ad69484dc305680c2e2d9ee781dacad49ce5ef36ffe6ca77e5680119586c02ee2b77ddbd5680537f1e33df33e  nomad-0.9.6.tar.gz
+sha512sums="a93434fe3f4f1de1be1cfd545871b99114203dba8d986bec55609b8098f54311e70c3ebcc7ac4a5104b71796a1fe127b550ae964c54d2dd48859b4b1dc056a48  nomad-0.10.0.tar.gz
 ac969c81150ba57871c1f75f17c11d06ffc7bcc872882416c7c0d9d43f5e352ca1b7e7bfd75e32a9d01a826496c77a657dc298f5e048f85b4d9e85bc3afee51d  nomad.initd
 a4fcc9f319926e8e5257dcc902cf3e1cbacd8bee82097b7a9719611d52037431a7e953a4b0fa90fc25475d2590cd14877c8e4c87bd909dd0099a754ba6f5063c  nomad.confd
 e9c0161c2a9c0e1933c266520a410764a709c7b4f65b1a81c1fb2494eae89daa847ffca5df46d6eea61d855f35d21e66433ec0afe8c08017187c917e952b8544  nvidia-driver.patch
 c2ba7db5bb0858547bf346819945d24626ac761541f38350b40408e1b26227549f6aa4d6946baadbf856329c0ac9f81f84164597d11361224b62a1697f17e726  server.hcl
-3810c6e0d3e5c202567ac95d04e363b4f28bf39e37a746c5c50b38c18bec3b6256d25f9e0a7fcbe7b7b12dbb007cdefe029a8b74fe8190d019c717d77a9a77fd  static-assets.patch"
+3810c6e0d3e5c202567ac95d04e363b4f28bf39e37a746c5c50b38c18bec3b6256d25f9e0a7fcbe7b7b12dbb007cdefe029a8b74fe8190d019c717d77a9a77fd  static-assets.patch
+668c218c9c854e22e2b50d194208894570fb2ef09e87080d3b9f8749cd8e6d0c0a9ce0a049fc0f29a4a86a58ddc8cdf8aff08fb70c5cbe83136241d047da4b75  ui-remove-husky.patch
+02b384eb4a8fbf4c047784c8f118c1cd874408c77b2dcf5371cd1abda4cb22eacb8bc868d531fc4449b74fdd5f06054016c9551187d9bfa2a17920d0e50eab91  update-yarn-lock.patch"

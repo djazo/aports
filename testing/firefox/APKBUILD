@@ -2,7 +2,7 @@
 # Maintainer: Natanael Copa <ncopa@alpinelinux.org>
 pkgname=firefox
 pkgver=70.0
-pkgrel=0
+pkgrel=1
 pkgdesc="Firefox web browser"
 url="https://www.firefox.com/"
 # limited by rust and cargo
@@ -40,7 +40,7 @@ makedepends="
 	nspr-dev
 	nss-dev>=3.44.1
 	nss-static
-	python3-dev
+	python2-dev
 	sqlite-dev
 	sed
 	startup-notification-dev

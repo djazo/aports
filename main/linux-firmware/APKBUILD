@@ -22,6 +22,7 @@ source="https://dev.alpinelinux.org/archive/$pkgname/$pkgname-${pkgver}.tar.gz
 	BCM4345C0.hcd.${_rpi_bt::8}::https://github.com/RPi-Distro/bluez-firmware/raw/$_rpi_bt/broadcom/BCM4345C0.hcd
 	brcmfmac43455-sdio.bin::https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm/brcmfmac43455-sdio.bin
 	brcmfmac43455-sdio.clm_blob::https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm/brcmfmac43455-sdio.clm_blob
+	brcmfmac43455-sdio.txt::https://github.com/RPi-Distro/firmware-nonfree/raw/master/brcm/brcmfmac43455-sdio.txt
 	"
 
 _giturl="git://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git"
@@ -78,6 +79,10 @@ package() {
 				"$pkgdir"/lib/firmware/brcm/"${_f%.*}"
 			;;
 		*.clm_blob*)
+			install -Dm 644 $srcdir/$_f \
+				"$pkgdir"/lib/firmware/brcm/"${_f%.*}"
+			;;
+		*.txt*)
 			install -Dm 644 $srcdir/$_f \
 				"$pkgdir"/lib/firmware/brcm/"${_f%.*}"
 			;;

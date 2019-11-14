@@ -3,13 +3,13 @@
 pkgname=py3-botocore
 _pkgname=botocore
 # Verify required version from py3-boto3 on this package before upgrading
-pkgver=1.13.13
+pkgver=1.13.17
 pkgrel=0
 pkgdesc="The low-level, core functionality of Boto3"
 url="https://github.com/boto/botocore"
 arch="noarch"
 license="Apache-2.0"
-depends="py3-dateutil<2.8.1 py3-docutils<0.16 py3-jmespath<1.0.0 py3-urllib3<1.26"
+depends="py3-dateutil<3.0 py3-docutils<0.16 py3-jmespath<1.0.0 py3-urllib3<1.26"
 makedepends="py3-setuptools"
 source="https://files.pythonhosted.org/packages/source/${_pkgname:0:1}/$_pkgname/$_pkgname-$pkgver.tar.gz"
 builddir="$srcdir/$_pkgname-$pkgver"
@@ -29,4 +29,4 @@ package() {
 	python3 setup.py install --prefix=/usr --root="$pkgdir"
 }
 
-sha512sums="f25ae2e219bf2f9af66053c4cd5676b617272dcf1cae691d9227070a6f2835521404c6b453054a9f89101929afb6fea34cff36af946831ae6410be62ca54354a  botocore-1.13.13.tar.gz"
+sha512sums="a1777a6093a4ec2f2279d201371694e55fc95263698aef168807a90a8d6c7cf83211ba8df680a87be690d23bd559c5a3dacd7d6321098b0f08f9ba4d20dc9fbb  botocore-1.13.17.tar.gz"

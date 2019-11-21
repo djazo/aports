@@ -1,13 +1,13 @@
 # Maintainer: Natanael Copa <ncopa@alpinelinux.org>
 
 pkgname=linux-rpi
-pkgver=4.19.85
+pkgver=5.4.y
 case $pkgver in
 *.*.*)	_kernver=${pkgver%.*};;
 *.*)	_kernver=${pkgver};;
 esac
 pkgrel=1
-pkgdesc="Linux kernel with Raspberry Pi patches"
+pkgdesc="Linux kernel 5.4 with Raspberry Pi patches"
 url=https://github.com/raspberrypi/linux
 depends="mkinitfs"
 _depends_dev="perl gmp-dev elfutils-dev bash"
@@ -15,21 +15,15 @@ makedepends="$_depends_dev sed installkernel bc linux-headers linux-firmware
 	bison flex openssl-dev
 "
 options="!strip !check"
-_rpi_repo="git://github.com/raspberrypi/linux.git"
-_linux_repo="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git"
-source="https://kernel.org/pub/linux/kernel/v4.x/linux-$_kernver.tar.xz
-	https://kernel.org/pub/linux/kernel/v4.x/patch-$pkgver.xz
-	https://dev.alpinelinux.org/archive/rpi-patches/rpi-$pkgver-alpine.patch
-
-	issue-4973.patch
-
+_
+source="$pkgname-$pkgver.tar.gz::https://github.com/raspberrypi/linux/tarball/rpi-$_pkgver
+  https://git.kernel.org/torvalds/t/linux-5.4-rc8.tar.gz
 	config-changes-rpi.armhf
-	config-changes-rpi.aarch64
-	config-changes-rpi2.armhf
-	config-changes-rpi.armv7
-	config-changes-rpi2.armv7
-	config-changes-rpi4.armv7
-	config-changes-rpi4.aarch64
+  config-changes-rpi2.armhf
+  config-changes-rpi3.armv7
+  config-changes-rpi4.armv7
+  config-changes-rpi3.aarch64
+  config-changes-rpi4.aarch64
 	"
 subpackages=""
 arch="armhf armv7 aarch64"
@@ -56,34 +50,34 @@ HOSTCC="${CC:-gcc}"
 HOSTCC="${HOSTCC#${CROSS_COMPILE}}"
 
 prepare() {
-	local _patch_failed=
-	cd "$srcdir"/linux-$_kernver
-	if [ "${pkgver%.0}" = "$pkgver" ]; then
-		msg "Applying patch-$pkgver.xz"
-		unxz -c < "$srcdir"/patch-$pkgver.xz | patch -p1 -N
-	fi
+	# local _patch_failed=
+	# cd "$srcdir"/linux-$_kernver
+	# if [ "${pkgver%.0}" = "$pkgver" ]; then
+	# 	msg "Applying patch-$pkgver.xz"
+	# 	unxz -c < "$srcdir"/patch-$pkgver.xz | patch -p1 -N
+	# fi
 
-	# first apply patches in specified order
-	for i in $source; do
-		case $i in
-		*.patch)
-			msg "Applying $i..."
-			if ! patch -s -p1 -N -i "$srcdir"/${i##*/}; then
-				echo $i >>failed
-				_patch_failed=1
-			fi
-			;;
-		esac
-	done
+	# # first apply patches in specified order
+	# for i in $source; do
+	# 	case $i in
+	# 	*.patch)
+	# 		msg "Applying $i..."
+	# 		if ! patch -s -p1 -N -i "$srcdir"/${i##*/}; then
+	# 			echo $i >>failed
+	# 			_patch_failed=1
+	# 		fi
+	# 		;;
+	# 	esac
+	# done
 
-	if ! [ -z "$_patch_failed" ]; then
-		error "The following patches failed:"
-		cat failed
-		return 1
-	fi
+	# if ! [ -z "$_patch_failed" ]; then
+	# 	error "The following patches failed:"
+	# 	cat failed
+	# 	return 1
+	# fi
 
-	# remove localversion from patch if any
-	rm -f localversion*
+	# # remove localversion from patch if any
+	# rm -f localversion*
 
 	local flavor=
 	for flavor in $_flavors; do
@@ -109,8 +103,8 @@ _genconfig() {
 	local defconfig=
 	case $flavor in
 		rpi) defconfig=bcmrpi_defconfig
-		[ "$CARCH" = "aarch64" ] && defconfig=bcmrpi3_defconfig ;;
 		rpi2) defconfig=bcm2709_defconfig ;;
+    rpi3) defconfig=bcm2708_defconfig ;;
 		rpi4) defconfig=bcm2711_defconfig ;;
 		*) die "Unknown flavor: $flavor" ;;
 	esac
@@ -207,24 +201,6 @@ _package() {
 	fi
 }
 
-genpatch() {
-	local RPI_REPO_PATH="$HOME/repositories/linux-rpi"
-	msg "Checking out/pulling the Linux kernel git repository.."
-	mkdir -p "$RPI_REPO_PATH" && cd "$RPI_REPO_PATH"
-	git clone "$_linux_repo" "$RPI_REPO_PATH" 2>/dev/null || git pull
-	msg "Fetching raspberry git repository.."
-	git remote add rpi "$_rpi_repo" 2>/dev/null || true
-	git fetch rpi
-	msg "Generating rpi patch: rpi-$pkgver.patch"
-	mkdir -p "$srcdir"
-	git diff v$pkgver remotes/rpi/rpi-${pkgver%.*}.y > \
-		"$srcdir"/rpi-$pkgver.patch
-	msg "Sending patch to dev.alpinelinux.org.."
-	scp "$srcdir"/rpi-$pkgver.patch \
-		dev.alpinelinux.org:/archive/rpi-patches/rpi-$pkgver.patch
-	cd "$startdir" && abuild checksum
-}
-
 # main flavor installs in $pkgdir
 package() {
 	depends="$depends linux-firmware-brcm"
@@ -235,6 +211,11 @@ package() {
 rpi2() {
 	depends="$depends linux-firmware-brcm"
 	_package rpi2 "$subpkgdir"
+}
+
+rpi3() {
+  depends="$depends linux-firware-brcm"
+  _package rpi3 "$subpkgdir"
 }
 
 rpi4() {
@@ -290,14 +271,3 @@ _dev() {
 		"$subpkgdir"/lib/modules/${_abi_release}/build
 }
 
-sha512sums="ab67cc746b375a8b135e8b23e35e1d6787930d19b3c26b2679787d62951cbdbc3bb66f8ededeb9b890e5008b2459397f9018f1a6772fdef67780b06a4cb9f6f4  linux-4.19.tar.xz
-745903b6fc93a25f6f6eefa4cc132983202a37d51ca97fefc15ac70ff2667ca8cf40b25ba66fd4dd1967b98883223c774c53d0ad11c87d943a813aabd0f6f769  patch-4.19.85.xz
-0ee37ec0c9cdc2ece72085ae80199661140d196d3ed55e61613905b856c21c37617f8edd8b74bbf401c46f1fdcad2f983fa1bc0dd61d61eff117e0cbc4b1ce50  rpi-4.19.85-alpine.patch
-501c91bf2538a18102da59bbccc3097f9c3c90079acc0e946ff075074160c09b8a66934e5ce5470e170f0e4f93d114709a95230367426d0bb7ea02c4bdf4cc9b  issue-4973.patch
-6c1c1c61ceb323eecb0e81e226af6b5b8fef7c8c075b1eb836639f465de5ef5d23648716c953d295250f8c6567546782956afe644573b84920a4f6902a1a0454  config-changes-rpi.armhf
-6c1c1c61ceb323eecb0e81e226af6b5b8fef7c8c075b1eb836639f465de5ef5d23648716c953d295250f8c6567546782956afe644573b84920a4f6902a1a0454  config-changes-rpi.aarch64
-6c1c1c61ceb323eecb0e81e226af6b5b8fef7c8c075b1eb836639f465de5ef5d23648716c953d295250f8c6567546782956afe644573b84920a4f6902a1a0454  config-changes-rpi2.armhf
-6c1c1c61ceb323eecb0e81e226af6b5b8fef7c8c075b1eb836639f465de5ef5d23648716c953d295250f8c6567546782956afe644573b84920a4f6902a1a0454  config-changes-rpi.armv7
-6c1c1c61ceb323eecb0e81e226af6b5b8fef7c8c075b1eb836639f465de5ef5d23648716c953d295250f8c6567546782956afe644573b84920a4f6902a1a0454  config-changes-rpi2.armv7
-6c1c1c61ceb323eecb0e81e226af6b5b8fef7c8c075b1eb836639f465de5ef5d23648716c953d295250f8c6567546782956afe644573b84920a4f6902a1a0454  config-changes-rpi4.armv7
-6c1c1c61ceb323eecb0e81e226af6b5b8fef7c8c075b1eb836639f465de5ef5d23648716c953d295250f8c6567546782956afe644573b84920a4f6902a1a0454  config-changes-rpi4.aarch64"

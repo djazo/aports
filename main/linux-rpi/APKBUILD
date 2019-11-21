@@ -1,7 +1,7 @@
 # Maintainer: Natanael Copa <ncopa@alpinelinux.org>
 
 pkgname=linux-rpi
-pkgver=5.4.y
+pkgver=5.4
 case $pkgver in
 *.*.*)	_kernver=${pkgver%.*};;
 *.*)	_kernver=${pkgver};;
@@ -15,9 +15,9 @@ makedepends="$_depends_dev sed installkernel bc linux-headers linux-firmware
 	bison flex openssl-dev
 "
 options="!strip !check"
-_
-source="$pkgname-$pkgver.tar.gz::https://github.com/raspberrypi/linux/tarball/rpi-$_pkgver
-  https://git.kernel.org/torvalds/t/linux-5.4-rc8.tar.gz
+_rpi_repo="https://github.com/raspberrypi/linux.git"
+_linux_repo="https://git.kernel.org/pub/scm/linux/kernel/git/stable/linux-stable-rc.git"
+source="https://git.kernel.org/torvalds/t/linux-5.4-rc8.tar.gz
 	config-changes-rpi.armhf
   config-changes-rpi2.armhf
   config-changes-rpi3.armv7
@@ -199,6 +199,24 @@ _package() {
 			"$INSTALL_DTBS_PATH"
 		rmdir "$INSTALL_DTBS_PATH"/broadcom
 	fi
+}
+
+genpatch() {
+	local RPI_REPO_PATH="$HOME/repositories/linux-rpi"
+	msg "Checking out/pulling the Linux kernel git repository.."
+	mkdir -p "$RPI_REPO_PATH" && cd "$RPI_REPO_PATH"
+	git clone "$_linux_repo" "$RPI_REPO_PATH" 2>/dev/null || git pull
+	msg "Fetching raspberry git repository.."
+	git remote add rpi "$_rpi_repo" 2>/dev/null || true
+	git fetch rpi
+	msg "Generating rpi patch: rpi-$pkgver.patch"
+	mkdir -p "$srcdir"
+	git diff v$pkgver remotes/rpi/rpi-${pkgver%.*}.y > \
+		"$srcdir"/rpi-$pkgver.patch
+	msg "Sending patch to dev.alpinelinux.org.."
+	scp "$srcdir"/rpi-$pkgver.patch \
+		dev.alpinelinux.org:/archive/rpi-patches/rpi-$pkgver.patch
+	cd "$startdir" && abuild checksum
 }
 
 # main flavor installs in $pkgdir

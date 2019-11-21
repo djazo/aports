@@ -1,0 +1,56 @@
+# Contributor: Matt Smith <mcs@darkregion.net>
+# Maintainer: Matt Smith <mcs@darkregion.net>
+pkgname=py3-docutils
+_pkgname=docutils
+pkgver=0.14
+pkgrel=4
+pkgdesc="Documentation Utilities for Python3"
+url="http://docutils.sourceforge.net/"
+arch="noarch"
+license="Public-Domain"
+depends="python3 py3-pillow py3-roman"
+makedepends="py3-setuptools"
+subpackages="$pkgname-doc::noarch"
+source="https://downloads.sourceforge.net/$_pkgname/$_pkgname-$pkgver.tar.gz"
+builddir="$srcdir/$_pkgname-$pkgver"
+
+replaces="py-docutils" # Backwards compatibility
+provides="py-docutils=$pkgver-r$pkgrel" # Backwards compatibility
+
+build() {
+	python3 setup.py build
+}
+
+package() {
+	python3 setup.py install --prefix=/usr --root="$pkgdir"
+
+	# Remove .py extension and add version suffix to executable files.
+	local path; for path in "$pkgdir"/usr/bin/*.py; do
+		mv "$path" "${path/.py/-3}"
+	done
+
+	cd "$pkgdir"/usr/bin
+	local name; for name in *-3; do
+		ln -s -- ${name} "$pkgdir"/usr/bin/${name%-3}
+	done
+}
+
+doc() {
+	replaces=""
+	provides=""
+	pkgdesc="$pkgdesc (documentation)"
+	local docdir="$subpkgdir/usr/share/doc/$pkgname"
+	local licdir="$subpkgdir/usr/share/licenses/$pkgname"
+
+	cd "$builddir"
+
+	mkdir -p "$docdir"
+	cp -R docs/* "$docdir"/
+	cp *.txt "$docdir"/
+
+	mkdir -p "$licdir"
+	rm -f licenses/docutils.conf
+	cp licenses/* "$licdir"/
+}
+
+sha512sums="1ed72c2ef7d2ca38d1c6f3154b7986ea46f599d9bd826405a5257fdd7740c8626957d6298aa95fb0edea8a24515de22f1ad9b2ecbd59341a1ab7a2bab30f500c  docutils-0.14.tar.gz"

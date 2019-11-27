@@ -1,38 +1,48 @@
 # Contributor: Carlo Landmeter <clandmeter@gmail.com>
 # Maintainer: Bart Ribbers <bribbers@disroot.org>
 pkgname=snapcast
-pkgver=0.16.0
+pkgver=0.17.1
 pkgrel=0
 pkgdesc="Synchronous multi-room audio player"
 url="https://github.com/badaix/snapcast"
-arch="all"
+arch="noarch"
 license="GPL-3.0-or-later"
 depends="$pkgname-client $pkgname-server"
-makedepends="asio-dev bash avahi-dev flac-dev libvorbis-dev alsa-lib-dev aixlog popl"
+makedepends="cmake asio-dev avahi-dev flac-dev libvorbis-dev alsa-lib-dev opus-dev"
 pkgusers="$pkgname"
 pkggroups="$pkgname audio"
 install="$pkgname-client.pre-install $pkgname-server.pre-install"
-subpackages="$pkgname-doc $pkgname-client $pkgname-server"
+subpackages="$pkgname-doc $pkgname-client::all $pkgname-server::all"
 source="$pkgname-$pkgver.tar.gz::https://github.com/badaix/snapcast/archive/v$pkgver.tar.gz
-	respect-optimization-level.patch
 
 	$pkgname-client.initd
 	$pkgname-client.confd
 	$pkgname-server.initd
 	$pkgname-server.confd
 	"
+options="!check" # No testsuite
 
 build() {
+	cmake \
+		-DCMAKE_BUILD_TYPE=RelWithDebInfo \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DBUILD_WITH_FLAC=ON \
+		-DBUILD_WITH_VORBIS=ON \
+		-DBUILD_WITH_OPUS=ON \
+		-DBUILD_WITH_AVAHI=ON
 	make
 }
 
 check() {
-	client/snapclient --help > /dev/null
-	server/snapserver --help > /dev/null
+	CTEST_OUTPUT_ON_FAILURE=TRUE ctest
 }
 
 package() {
-	make DESTDIR="$pkgdir" installclient installserver
+	DESTDIR="$pkgdir" make install
+
+	mkdir -p "$pkgdir"/usr/share/man/man1
+	install client/snapclient.1 "$pkgdir"/usr/share/man/man1/snapclient.1.gz
+	install server/snapserver.1 "$pkgdir"/usr/share/man/man1/snapserver.1.gz
 }
 
 client() {
@@ -63,8 +73,7 @@ server() {
 		"$subpkgdir"/etc/conf.d/"$subpkgname"
 }
 
-sha512sums="fbffb276ae32a576b225464f586e66a5462e7b9649df2435db30fe8cede8eda971250680950d27ea3f5d243783ac56dc7e3a77858bcc66c0912d3a8092355592  snapcast-0.16.0.tar.gz
-9a4d35ffc4146f29ab0eef0fbb4444f50f4bb3fe3b8f30aaef90f8300819523b111f3ab672229dc72854b2d8cefe361caf9c29883983758e5e3f96913f134bc4  respect-optimization-level.patch
+sha512sums="a344404e9afcf45064eddf2a04488f9d7869f0b7d53df48479edf798bde11693668c8f3ad942f7e47fae9048b0f4987f5944edf032920b0a798bcd6379a10768  snapcast-0.17.1.tar.gz
 833ce6a5fecb023f32df340df98b5cfbecc765735d7133228dd703a6a0c7f2b67ac95aa787ac7119a2eb87e768e5c4deb12738d0b0354db3510d9047f9e9b24f  snapcast-client.initd
 fa353d7974d3a8b3b22ff009b762c7c4ee318f9f83e22762a9ebf550484b9fc3cc4dffd389b6d756630dc035cb86d5c5643541957785f8bbf71fe4915691c337  snapcast-client.confd
 ff610e08274d317e0df9590de47f3425d23a38528f82b9998de04d73cf2167ddb6aad237ddce9864b6c36fff959afb6a892c554ce40fd3e3d62c1308b022b2bb  snapcast-server.initd

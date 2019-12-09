@@ -3,6 +3,10 @@ build_kernel() {
 	shift 3
 	local _pkgs="$@"
 	[ "$modloop_sign" = "yes" ] && _modloopsign="--modloopsign"
+  # fake boot dir to put kernel, modules and initramfs into sd root
+  if [ "$_flavor" == "rpi4" ] || [ "$_flavor" == "rpi2" ] || [ "$_flavor" == "rpi" ]; then
+      ln -s $DESTDIR/. $DESTDIR/boot
+  fi
 	update-kernel \
 		$_hostkeys \
 		${_abuild_pubkey:+--apk-pubkey $_abuild_pubkey} \

@@ -1,7 +1,7 @@
 # Maintainer: Natanael Copa <ncopa@alpinelinux.org>
 
 pkgname=linux-rpi
-pkgver=4.19.86
+pkgver=5.4.2
 case $pkgver in
 *.*.*)	_kernver=${pkgver%.*};;
 *.*)	_kernver=${pkgver};;
@@ -17,11 +17,12 @@ makedepends="$_depends_dev sed installkernel bc linux-headers linux-firmware
 options="!strip !check"
 _rpi_repo="git://github.com/raspberrypi/linux.git"
 _linux_repo="git://git.kernel.org/pub/scm/linux/kernel/git/stable/linux.git"
-source="https://kernel.org/pub/linux/kernel/v4.x/linux-$_kernver.tar.xz
-	https://kernel.org/pub/linux/kernel/v4.x/patch-$pkgver.xz
-	https://dev.alpinelinux.org/archive/rpi-patches/rpi-$pkgver-alpine.patch
+source="https://kernel.org/pub/linux/kernel/v5.x/linux-$_kernver.tar.xz
+	https://kernel.org/pub/linux/kernel/v5.x/patch-$pkgver.xz
 
-	issue-4973.patch
+  rpi-$pkgver.patch
+
+
 
 	config-changes-rpi.armhf
 	config-changes-rpi.armv7
@@ -219,9 +220,9 @@ genpatch() {
 	mkdir -p "$srcdir"
 	git diff v$pkgver remotes/rpi/rpi-${pkgver%.*}.y > \
 		"$srcdir"/rpi-$pkgver.patch
-	msg "Sending patch to dev.alpinelinux.org.."
-	scp "$srcdir"/rpi-$pkgver.patch \
-		dev.alpinelinux.org:/archive/rpi-patches/rpi-$pkgver.patch
+	msg "Copying patch to ABUILD root.."
+	cp "$srcdir"/rpi-$pkgver.patch \
+		"$startdir"/rpi-$pkgver.patch
 	cd "$startdir" && abuild checksum
 }
 
@@ -261,7 +262,7 @@ _dev() {
 	mkdir -p "$dir"
 	cp "$srcdir"/build-$_flavor/.config "$dir"/.config
 	make -j1 -C "$srcdir"/linux-$_kernver O="$dir" HOSTCC="${CC:-gcc}" \
-		silentoldconfig prepare modules_prepare scripts
+		oldconfig prepare modules_prepare scripts
 
 	# remove the stuff that points to real sources. we want 3rd party
 	# modules to believe this is the soruces
@@ -290,10 +291,9 @@ _dev() {
 		"$subpkgdir"/lib/modules/${_abi_release}/build
 }
 
-sha512sums="ab67cc746b375a8b135e8b23e35e1d6787930d19b3c26b2679787d62951cbdbc3bb66f8ededeb9b890e5008b2459397f9018f1a6772fdef67780b06a4cb9f6f4  linux-4.19.tar.xz
-163c8fb0463f84ed28b51df54553a714d558e8101f4a34d99f9aa02aab45a5482bd49b829775edc809da0dd7a39bf415bc2ae38d2ef1eaf97a8a992ec91397ef  patch-4.19.86.xz
-f77ddf9a2af24227db450d0f9a40ac4300ed38752acdf20a0c5f0a83a480ba165f257df4f2fc978590205b70d665f890b531a92326d82367084f2cabd1f4c8f9  rpi-4.19.86-alpine.patch
-501c91bf2538a18102da59bbccc3097f9c3c90079acc0e946ff075074160c09b8a66934e5ce5470e170f0e4f93d114709a95230367426d0bb7ea02c4bdf4cc9b  issue-4973.patch
+sha512sums="9f60f77e8ab972b9438ac648bed17551c8491d6585a5e85f694b2eaa4c623fbc61eb18419b2656b6795eac5deec0edaa04547fc6723fbda52256bd7f3486898f  linux-5.4.tar.xz
+aba07d75524ad33cd014700a1317c450fe4ea02817dc225848187fa2a353a215011d3ab485d1900796e0797b8c145bbbf10d706ab45784cc9413dbbc96889041  patch-5.4.2.xz
+21d20c1df6ff222733f0697b1731c90e108a14f0b50ed0ab1418edf2df51df6448efeeae4fc525fa7dfbd919d94e5d896d28a805ca9887dc1ef283ccae592f4a  rpi-5.4.2.patch
 6c1c1c61ceb323eecb0e81e226af6b5b8fef7c8c075b1eb836639f465de5ef5d23648716c953d295250f8c6567546782956afe644573b84920a4f6902a1a0454  config-changes-rpi.armhf
 6c1c1c61ceb323eecb0e81e226af6b5b8fef7c8c075b1eb836639f465de5ef5d23648716c953d295250f8c6567546782956afe644573b84920a4f6902a1a0454  config-changes-rpi.armv7
 6c1c1c61ceb323eecb0e81e226af6b5b8fef7c8c075b1eb836639f465de5ef5d23648716c953d295250f8c6567546782956afe644573b84920a4f6902a1a0454  config-changes-rpi.aarch64

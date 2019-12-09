@@ -2,7 +2,7 @@
 # Maintainer: Fabian Affolter <fabian@affolter-engineering.ch>
 pkgname=py-setuptools
 _pkgname=${pkgname#py-}
-pkgver=42.0.0
+pkgver=42.0.2
 pkgrel=0
 pkgdesc="A collection of enhancements to the Python distutils"
 url="https://pypi.python.org/pypi/setuptools"
@@ -50,4 +50,4 @@ _py3() {
 }
 
 
-sha512sums="23868672953499106103e33425f9c4cd84b1e0408218ac27c03a3f8fda8c1c739b015c615dcc95b0fde89eedcb31957059656b677cd36cd558bd8307f451efcf  setuptools-42.0.0.tar.gz"
+sha512sums="3ef85e38e02e7d4178f4ca1e84577392a5682e569bdba40fc4b87440d8a4a7769fa4eca5b3f457febf1cf16de0cdc7ddb8d1ddedc92fd4af0bae3b15abe2b7bc  setuptools-42.0.2.tar.gz"

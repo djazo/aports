@@ -1,9 +1,9 @@
 # Contributor: Rasmus Thomsen <oss@cogitri.dev>
 # Maintainer: Rasmus Thomsen <oss@cogitri.dev>
 pkgname=ffsend
-pkgver=0.2.55
+pkgver=0.2.57
 pkgrel=0
-pkgdesc=" A fully featured Firefox Send client"
+pkgdesc="A fully featured Firefox Send client"
 url="https://gitlab.com/timvisee/ffsend"
 arch="x86_64 x86 armhf armv7 aarch64 ppc64le" # limited by cargo
 license="GPL-3.0-only"
@@ -62,4 +62,4 @@ fishcomp() {
 			"$subpkgdir"/usr/share/fish/completions/ffsend.fish
 }
 
-sha512sums="09b4c33eb6601b3b647e8f3967353575b82d41c944ab960c4a04a7afb16e2ab2ec35cd518c63ecda1fafce9456cec47dc854e2769ee0348e9044fa2f4fd05202  ffsend-v0.2.55.tar.gz"
+sha512sums="6745feca3f1eec454919cca74ea7306ca41107009416348f3e0c572ce60f71ac8db7a0a2816906a9989a13acd7383720e27af977a07a5a7a28cffd3cb6c04f56  ffsend-v0.2.57.tar.gz"

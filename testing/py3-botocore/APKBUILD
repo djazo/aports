@@ -3,7 +3,7 @@
 pkgname=py3-botocore
 _pkgname=botocore
 # Verify required version from py3-boto3 on this package before upgrading
-pkgver=1.13.27
+pkgver=1.13.34
 pkgrel=0
 pkgdesc="The low-level, core functionality of Boto3"
 url="https://github.com/boto/botocore"
@@ -29,4 +29,4 @@ package() {
 	python3 setup.py install --prefix=/usr --root="$pkgdir"
 }
 
-sha512sums="c430d5d1c2ad293bce201d8fc1c8a0d83f3b2da7f429359a2f4ed71c71af52c49e0a2a12a0c359929ab67848c3b055a82826798af90c7b1fbfce894196020bab  botocore-1.13.27.tar.gz"
+sha512sums="b4b2e003671a8a31b497fb6b8b511b6912d7e64124d9d38078e6a7d0df3c1693124e7c59a3b496d7ed167d69d800fded6e31f0a885601e52fba9d8dcb8457913  botocore-1.13.34.tar.gz"

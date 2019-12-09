@@ -2,7 +2,7 @@
 # Maintainer:
 pkgname=py3-fonttools
 _pkgname=fonttools
-pkgver=4.1.0
+pkgver=4.2.1
 pkgrel=0
 pkgdesc="Converts OpenType and TrueType fonts to and from XML"
 options="!check" # Require unpackaged 'brotli'
@@ -42,4 +42,4 @@ doc() {
 	default_doc
 }
 
-sha512sums="3d9485cd34b5ea3dfdcc26474e0b21a96811b84eda16341c39165aea72bb09c3cf3360a069b316ae6575a399e26f6518c199180caec7bb959f245ced7ca45e3b  fonttools-4.1.0.tar.gz"
+sha512sums="677d62f17f15d369f54a21c454428ed537555a2a5b07aed8c76dcb5775b92a34d5da26899e62212fa9708ed510d508b7e66fdf560699f1d3dde5f0d9390f4cbd  fonttools-4.2.1.tar.gz"

@@ -1,11 +1,12 @@
 # Maintainer: Natanael Copa <ncopa@alpinelinux.org>
 pkgname=live-media
-pkgver=2019.11.22
+pkgver=2019.12.07
 pkgrel=0
 pkgdesc="A set of C++ libraries for multimedia streaming"
 url="http://live555.com/liveMedia"
 arch="all"
 license="LGPL-3.0-or-later"
+makedepends="openssl-dev"
 subpackages="$pkgname-dev $pkgname-utils"
 options="!check"
 source="http://live555.com/liveMedia/public/live.$pkgver.tar.gz"
@@ -48,4 +49,4 @@ utils() {
 	mv "$pkgdir"/usr/bin "$subpkgdir"/usr/
 }
 
-sha512sums="67dcd709e646cfcca3617e1c1f2996db1e1987801b0fa334c3519026611958227805087e7a58356d8a9e2272a41d16ddc7979db99b2c2200da86cdcc5b54ca86  live.2019.11.22.tar.gz"
+sha512sums="a90a78d86fda6bcd368571bb79498b94dd3d584e09f968ac52e2f3545e6672161cc757b7e9af058625cce9db5c194ac034e9bb3990480d4b1dff05e623250586  live.2019.12.07.tar.gz"

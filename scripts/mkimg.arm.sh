@@ -115,10 +115,10 @@ profile_uboot() {
 	title="Generic ARM"
 	desc="Has default ARM kernel.
 		Includes the uboot bootloader.
-		Supports armhf and aarch64."
+		Supports armv7 and aarch64."
 	image_ext="tar.gz"
-	arch="aarch64 armhf armv7"
-	kernel_flavors="vanilla"
+	arch="aarch64 armv7"
+	kernel_flavors="lts"
 	kernel_addons="xtables-addons"
 	initfs_features="base bootchart squashfs ext4 kms mmc raid scsi usb"
 	apkovl="genapkovl-dhcp.sh"

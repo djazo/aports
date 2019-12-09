@@ -1,7 +1,7 @@
 # Contributor: André Klitzing <aklitzing@gmail.com>
 # Maintainer: André Klitzing <aklitzing@gmail.com>
 pkgname=geth
-pkgver=1.9.7
+pkgver=1.9.9
 pkgrel=0
 pkgdesc="Official Go implementation of the Ethereum protocol"
 url="https://geth.ethereum.org/"
@@ -9,7 +9,7 @@ arch="all !aarch64" # build fails
 license="LGPL-3.0"
 makedepends="go linux-headers"
 checkdepends="fuse"
-options="!check"
+options="!check chmod-clean"
 source="$pkgname-$pkgver.tar.gz::https://github.com/ethereum/go-ethereum/archive/v$pkgver.tar.gz"
 builddir="$srcdir/go-ethereum-$pkgver"
 
@@ -26,4 +26,4 @@ package() {
 	install -m755 -t "$pkgdir"/usr/bin build/bin/*
 }
 
-sha512sums="f8628ffc1155c9e4f3bc2bce0b3b1397ff3d8ed8b4814751f9f9b02e019d084b1b020506a2db46095f1085f1d3ac60935b4ffc670cc7b1c43c883c51d236d01e  geth-1.9.7.tar.gz"
+sha512sums="dbf379a24081933e73d8ad64b7953229baa1315ae4e1a4cea3b57f056edc19513bc5e335bf325f5cdb2a5b191e2b304158270fc1d55812a4b937d818de7d3226  geth-1.9.9.tar.gz"
